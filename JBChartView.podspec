@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'Apache', :file => 'LICENSE' }
   s.author       = { "Terry Worona" => "tworona@jawbone.com" }
   s.source       = { 
-	:git => "https://github.com/Jawbone/JBChartView.git",
+	:git => "https://github.com/tomatoapp/JBChartView.git",
 	:tag => "v2.9.1"
   }
 
