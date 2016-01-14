@@ -353,6 +353,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
 
 - (CGFloat)barWidth
 {
+    return 15;
     NSUInteger barCount = [[self.chartDataDictionary allKeys] count];
     if (barCount > 0)
     {
