@@ -84,10 +84,10 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
 
 + (void)initialize
 {
-	if (self == [JBBarChartView class])
-	{
-		kJBBarChartViewDefaultBarColor = [UIColor blackColor];
-	}
+    if (self == [JBBarChartView class])
+    {
+        kJBBarChartViewDefaultBarColor = [UIColor blackColor];
+    }
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -151,7 +151,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
         // Grab the count
         NSAssert([self.dataSource respondsToSelector:@selector(numberOfBarsInBarChartView:)], @"JBBarChartView // datasource must implement - (NSUInteger)numberOfBarsInBarChartView:(JBBarChartView *)barChartView");
         NSUInteger dataCount = [self.dataSource numberOfBarsInBarChartView:self];
-
+        
         // Build up the data collection
         NSAssert([self.delegate respondsToSelector:@selector(barChartView:heightForBarViewAtIndex:)], @"JBBarChartView // delegate must implement - (CGFloat)barChartView:(JBBarChartView *)barChartView heightForBarViewAtIndex:(NSUInteger)index");
         NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionary];
@@ -162,7 +162,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
             [dataDictionary setObject:[NSNumber numberWithFloat:height] forKey:[NSNumber numberWithInt:(int)index]];
         }
         self.chartDataDictionary = [NSDictionary dictionaryWithDictionary:dataDictionary];
-	};
+    };
     
     /*
      * Determines the padding between bars as a function of # of bars
@@ -198,65 +198,65 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
         NSMutableArray *mutableCachedBarViewHeights = [NSMutableArray array];
         for (NSNumber *key in [[self.chartDataDictionary allKeys] sortedArrayUsingSelector:@selector(compare:)])
         {
-			UIView *barView = nil;
-			{
-				// Custom bar
-				if ([self.dataSource respondsToSelector:@selector(barChartView:barViewAtIndex:)])
-				{
-					UIView *customBarView = [self.dataSource barChartView:self barViewAtIndex:index];
-					if (customBarView != nil)
-					{
-						barView = customBarView;
-					}
-				}
-				
-				// Color bar
-				if ([self.delegate respondsToSelector:@selector(barChartView:colorForBarViewAtIndex:)] && barView == nil)
-				{
-					UIColor *backgroundColor = [self.delegate barChartView:self colorForBarViewAtIndex:index];
-					if (backgroundColor != nil)
-					{
-						barView = [[UIView alloc] init];
-						barView.backgroundColor = backgroundColor;
-					}
-				}
-				
-				// Gradient
-				if ([self.delegate respondsToSelector:@selector(barGradientForBarChartView:)] && barView == nil)
-				{
-					CAGradientLayer *gradientLayer = [self.delegate barGradientForBarChartView:self];
-					if (gradientLayer != nil)
-					{
-						barView = [[JBGradientBarView alloc] init];
-						((JBGradientBarView *)barView).delegate = self;
-						((JBGradientBarView *)barView).gradientLayer = gradientLayer;
-					}
-				}
-				
-				// Default
-				if (barView == nil)
-				{
-					barView = [[UIView alloc] init];
-					barView.backgroundColor = kJBBarChartViewDefaultBarColor;
-				}
-			}
+            UIView *barView = nil;
+            {
+                // Custom bar
+                if ([self.dataSource respondsToSelector:@selector(barChartView:barViewAtIndex:)])
+                {
+                    UIView *customBarView = [self.dataSource barChartView:self barViewAtIndex:index];
+                    if (customBarView != nil)
+                    {
+                        barView = customBarView;
+                    }
+                }
+                
+                // Color bar
+                if ([self.delegate respondsToSelector:@selector(barChartView:colorForBarViewAtIndex:)] && barView == nil)
+                {
+                    UIColor *backgroundColor = [self.delegate barChartView:self colorForBarViewAtIndex:index];
+                    if (backgroundColor != nil)
+                    {
+                        barView = [[UIView alloc] init];
+                        barView.backgroundColor = backgroundColor;
+                    }
+                }
+                
+                // Gradient
+                if ([self.delegate respondsToSelector:@selector(barGradientForBarChartView:)] && barView == nil)
+                {
+                    CAGradientLayer *gradientLayer = [self.delegate barGradientForBarChartView:self];
+                    if (gradientLayer != nil)
+                    {
+                        barView = [[JBGradientBarView alloc] init];
+                        ((JBGradientBarView *)barView).delegate = self;
+                        ((JBGradientBarView *)barView).gradientLayer = gradientLayer;
+                    }
+                }
+                
+                // Default
+                if (barView == nil)
+                {
+                    barView = [[UIView alloc] init];
+                    barView.backgroundColor = kJBBarChartViewDefaultBarColor;
+                }
+            }
             barView.tag = index;
-			
+            
             // Add new bar
             if (self.footerView)
-			{
-				[self insertSubview:barView belowSubview:self.footerView];
-			}
-			else
-			{
-				[self addSubview:barView];
-			}
-			
-			CGFloat height = [self normalizedHeightForRawHeight:[self.chartDataDictionary objectForKey:key]];
-			barView.frame = CGRectMake(xOffset, self.bounds.size.height - height - self.footerView.frame.size.height, [self barWidth], height);
-			[mutableBarViews addObject:barView];
-			[mutableCachedBarViewHeights addObject:[NSNumber numberWithFloat:height]];
-			
+            {
+                [self insertSubview:barView belowSubview:self.footerView];
+            }
+            else
+            {
+                [self addSubview:barView];
+            }
+            
+            CGFloat height = [self normalizedHeightForRawHeight:[self.chartDataDictionary objectForKey:key]];
+            barView.frame = CGRectMake(xOffset, self.bounds.size.height - height - self.footerView.frame.size.height, [self barWidth], height);
+            [mutableBarViews addObject:barView];
+            [mutableCachedBarViewHeights addObject:[NSNumber numberWithFloat:height]];
+            
             xOffset += ([self barWidth] + self.barPadding);
             index++;
         }
@@ -293,7 +293,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
                 verticalSelectionViewHeight += self.footerPadding;
             }
         }
-
+        
         self.verticalSelectionView = [[JBChartVerticalSelectionView alloc] initWithFrame:CGRectMake(0, 0, [self barWidth], verticalSelectionViewHeight)];
         self.verticalSelectionView.alpha = 0.0;
         self.verticalSelectionView.hidden = !self.showsVerticalSelection;
@@ -325,7 +325,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
     // Position header and footer
     self.headerView.frame = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, self.headerView.frame.size.height);
     self.footerView.frame = CGRectMake(self.bounds.origin.x, self.bounds.size.height - self.footerView.frame.size.height, self.bounds.size.width, self.footerView.frame.size.height);
-
+    
     // Refresh state
     [self setState:self.state animated:NO force:YES callback:nil];
 }
@@ -433,39 +433,35 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
     {
         if (animated)
         {
-			dispatch_block_t animationCompletionBlock = ^{
-				if (callbackCopy)
-				{
-					callbackCopy();
-				}
-			};
-			
+            dispatch_block_t animationCompletionBlock = ^{
+                if (callbackCopy)
+                {
+                    callbackCopy();
+                }
+            };
+            
             NSUInteger animationDelayIndex = 0;
             for (UIView *barView in self.barViews)
             {
-				BOOL lastIndex = ((NSUInteger)barView.tag == [self.barViews count] - 1);
-				if ([[weakSelf.cachedBarViewHeights objectAtIndex:barView.tag] floatValue] > [self minimumValue])
-				{
-					[UIView animateWithDuration:kJBBarChartViewStateAnimationDuration delay:(kJBBarChartViewStateAnimationDuration * 0.5) * animationDelayIndex options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-						updateBarView(barView, YES);
-					} completion:^(BOOL finished) {
-						[UIView animateWithDuration:kJBBarChartViewStateAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-							updateBarView(barView, NO);
-						} completion:^(BOOL lastBarFinished) {
-							if (lastIndex)
-							{
-								animationCompletionBlock();
-							}
-						}];
-					}];
-					animationDelayIndex++;
-				}
-				else if (lastIndex)
-				{
-					animationCompletionBlock();
-				}
-			}
-		}
+                BOOL lastIndex = ((NSUInteger)barView.tag == [self.barViews count] - 1);
+                if ([[weakSelf.cachedBarViewHeights objectAtIndex:barView.tag] floatValue] > [self minimumValue])
+                {
+                    [UIView animateWithDuration:kJBBarChartViewStateAnimationDuration * 1.5 delay:(kJBBarChartViewStateAnimationDuration * 0.5) * animationDelayIndex options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                        updateBarView(barView, NO);
+                    }  completion:^(BOOL lastBarFinished) {
+                        if (lastIndex)
+                        {
+                            animationCompletionBlock();
+                        }
+                    }];
+                    animationDelayIndex++;
+                }
+                else if (lastIndex)
+                {
+                    animationCompletionBlock();
+                }
+            }
+        }
         else
         {
             for (UIView *barView in self.barViews)
@@ -494,29 +490,29 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
 
 - (void)setVerticalSelectionViewVisible:(BOOL)verticalSelectionViewVisible animated:(BOOL)animated
 {
-	_verticalSelectionViewVisible = verticalSelectionViewVisible;
-	
-	if (animated)
-	{
-		[UIView animateWithDuration:kJBChartViewDefaultAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-			self.verticalSelectionView.alpha = self.verticalSelectionViewVisible ? 1.0 : 0.0;
-		} completion:nil];
-	}
-	else
-	{
-		self.verticalSelectionView.alpha = _verticalSelectionViewVisible ? 1.0 : 0.0;
-	}
+    _verticalSelectionViewVisible = verticalSelectionViewVisible;
+    
+    if (animated)
+    {
+        [UIView animateWithDuration:kJBChartViewDefaultAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.verticalSelectionView.alpha = self.verticalSelectionViewVisible ? 1.0 : 0.0;
+        } completion:nil];
+    }
+    else
+    {
+        self.verticalSelectionView.alpha = _verticalSelectionViewVisible ? 1.0 : 0.0;
+    }
 }
 
 - (void)setVerticalSelectionViewVisible:(BOOL)verticalSelectionViewVisible
 {
-	[self setVerticalSelectionViewVisible:verticalSelectionViewVisible animated:NO];
+    [self setVerticalSelectionViewVisible:verticalSelectionViewVisible animated:NO];
 }
 
 - (void)setShowsVerticalSelection:(BOOL)showsVerticalSelection
 {
-	_showsVerticalSelection = showsVerticalSelection;
-	self.verticalSelectionView.hidden = _showsVerticalSelection ? NO : YES;
+    _showsVerticalSelection = showsVerticalSelection;
+    self.verticalSelectionView.hidden = _showsVerticalSelection ? NO : YES;
 }
 
 #pragma mark - Getters
@@ -556,16 +552,16 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
     {
         return fmaxf(self.cachedMaxHeight, [super maximumValue]);
     }
-    return self.cachedMaxHeight;    
+    return self.cachedMaxHeight;
 }
 
 - (UIView *)barViewAtIndex:(NSUInteger)index
 {
-	if (index < [self.barViews count])
-	{
-		return [self.barViews objectAtIndex:index];
-	}
-	return nil;
+    if (index < [self.barViews count])
+    {
+        return [self.barViews objectAtIndex:index];
+    }
+    return nil;
 }
 
 #pragma mark - Touch Helpers
@@ -613,7 +609,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
     {
         return;
     }
-	
+    
     UITouch *touch = [touches anyObject];
     CGPoint touchPoint = [touch locationInView:self];
     UIView *barView = [self barViewForForPoint:touchPoint];
@@ -627,25 +623,25 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
     selectionViewFrame.origin.x = barViewFrame.origin.x;
     selectionViewFrame.size.width = barViewFrame.size.width;
     /*
-    if ([self.dataSource respondsToSelector:@selector(shouldExtendSelectionViewIntoHeaderPaddingForChartView:)])
-    {
-        if ([self.dataSource shouldExtendSelectionViewIntoHeaderPaddingForChartView:self])
-        {
-            selectionViewFrame.origin.y = self.headerView.frame.size.height;
-        }
-        else
-        {
-            selectionViewFrame.origin.y = self.headerView.frame.size.height + self.headerPadding;
-        }
-    }
-    else
-    {
-        selectionViewFrame.origin.y = self.headerView.frame.size.height + self.headerPadding;
-    }
-    
-    self.verticalSelectionView.frame = selectionViewFrame;
-    [self setVerticalSelectionViewVisible:YES animated:YES];
-    */
+     if ([self.dataSource respondsToSelector:@selector(shouldExtendSelectionViewIntoHeaderPaddingForChartView:)])
+     {
+     if ([self.dataSource shouldExtendSelectionViewIntoHeaderPaddingForChartView:self])
+     {
+     selectionViewFrame.origin.y = self.headerView.frame.size.height;
+     }
+     else
+     {
+     selectionViewFrame.origin.y = self.headerView.frame.size.height + self.headerPadding;
+     }
+     }
+     else
+     {
+     selectionViewFrame.origin.y = self.headerView.frame.size.height + self.headerPadding;
+     }
+     
+     self.verticalSelectionView.frame = selectionViewFrame;
+     [self setVerticalSelectionViewVisible:YES animated:YES];
+     */
     if ([self.delegate respondsToSelector:@selector(barChartView:didSelectBarAtIndex:touchPoint:)])
     {
         [self.delegate barChartView:self didSelectBarAtIndex:[self barViewIndexForPoint:touchPoint] touchPoint:touchPoint];
@@ -678,7 +674,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[self setVerticalSelectionViewVisible:NO animated:NO];
+    [self setVerticalSelectionViewVisible:NO animated:NO];
     [self touchesBeganOrMovedWithTouches:touches];
 }
 
@@ -701,7 +697,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
 
 - (CGRect)chartViewBoundsForGradientBarView:(JBGradientBarView *)gradientBarView
 {
-	return self.bounds;
+    return self.bounds;
 }
 
 @end
@@ -712,61 +708,61 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
 
 - (instancetype)init
 {
-	self = [super init];
-	if (self)
-	{
-		[self construct];
-	}
-	return self;
+    self = [super init];
+    if (self)
+    {
+        [self construct];
+    }
+    return self;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-	self = [super initWithFrame:frame];
-	if (self)
-	{
-		[self construct];
-	}
-	return self;
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        [self construct];
+    }
+    return self;
 }
 
 #pragma mark - Setters
 
 - (void)setGradientLayer:(CAGradientLayer *)gradientLayer
 {
-	if (_gradientLayer != nil)
-	{
-		[_gradientLayer removeFromSuperlayer];
-		_gradientLayer = nil;
-	}
-	
-	_gradientLayer = gradientLayer;
-	_gradientLayer.masksToBounds = YES;
-	[self.layer insertSublayer:_gradientLayer atIndex:0];
+    if (_gradientLayer != nil)
+    {
+        [_gradientLayer removeFromSuperlayer];
+        _gradientLayer = nil;
+    }
+    
+    _gradientLayer = gradientLayer;
+    _gradientLayer.masksToBounds = YES;
+    [self.layer insertSublayer:_gradientLayer atIndex:0];
 }
 
 #pragma mark - Construction
 
 - (void)construct
 {
-	self.clipsToBounds = YES;
+    self.clipsToBounds = YES;
 }
 
 #pragma mark - Setters
 
 - (void)setFrame:(CGRect)frame
 {
-	[super setFrame:frame];
-	
-	if ([self.delegate respondsToSelector:@selector(chartViewBoundsForGradientBarView:)])
-	{
-		_gradientLayer.frame = [self.delegate chartViewBoundsForGradientBarView:self]; // gradient is as large as the chart
-		_gradientLayer.frame = CGRectOffset(_gradientLayer.frame, -CGRectGetMinX(frame), 0);
-	}
-	else
-	{
-		_gradientLayer.frame = self.bounds;
-	}
+    [super setFrame:frame];
+    
+    if ([self.delegate respondsToSelector:@selector(chartViewBoundsForGradientBarView:)])
+    {
+        _gradientLayer.frame = [self.delegate chartViewBoundsForGradientBarView:self]; // gradient is as large as the chart
+        _gradientLayer.frame = CGRectOffset(_gradientLayer.frame, -CGRectGetMinX(frame), 0);
+    }
+    else
+    {
+        _gradientLayer.frame = self.bounds;
+    }
 }
 
 @end
