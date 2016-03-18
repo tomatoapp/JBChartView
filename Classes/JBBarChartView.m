@@ -608,7 +608,6 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
 
 - (void)touchesBeganOrMovedWithTouches:(NSSet *)touches
 {
-    return;
     
     if (self.state == JBChartViewStateCollapsed || [[self.chartDataDictionary allKeys] count] <= 0)
     {
@@ -627,7 +626,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
     CGRect selectionViewFrame = self.verticalSelectionView.frame;
     selectionViewFrame.origin.x = barViewFrame.origin.x;
     selectionViewFrame.size.width = barViewFrame.size.width;
-    
+    /*
     if ([self.dataSource respondsToSelector:@selector(shouldExtendSelectionViewIntoHeaderPaddingForChartView:)])
     {
         if ([self.dataSource shouldExtendSelectionViewIntoHeaderPaddingForChartView:self])
@@ -646,7 +645,7 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
     
     self.verticalSelectionView.frame = selectionViewFrame;
     [self setVerticalSelectionViewVisible:YES animated:YES];
-    
+    */
     if ([self.delegate respondsToSelector:@selector(barChartView:didSelectBarAtIndex:touchPoint:)])
     {
         [self.delegate barChartView:self didSelectBarAtIndex:[self barViewIndexForPoint:touchPoint] touchPoint:touchPoint];
@@ -660,6 +659,8 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
 
 - (void)touchesEndedOrCancelledWithTouches:(NSSet *)touches
 {
+    return;
+    
     if (self.state == JBChartViewStateCollapsed || [[self.chartDataDictionary allKeys] count] <= 0)
     {
         return;
