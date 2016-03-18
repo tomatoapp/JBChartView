@@ -608,6 +608,8 @@ static UIColor *kJBBarChartViewDefaultBarColor = nil;
 
 - (void)touchesBeganOrMovedWithTouches:(NSSet *)touches
 {
+    return;
+    
     if (self.state == JBChartViewStateCollapsed || [[self.chartDataDictionary allKeys] count] <= 0)
     {
         return;
